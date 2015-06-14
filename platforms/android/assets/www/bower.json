@@ -1,0 +1,19 @@
+{
+  "name": "www",
+  "version": "0.0.0",
+  "homepage": "https://github.com/utkarshx/Fast-hybrid-templating",
+  "authors": [
+    "Utkarsh Shukla <utk.shukla@gmail.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
