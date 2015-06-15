@@ -19,12 +19,42 @@
 var app = {
     // Application Constructor
     initialize: function() {
+        this.registerRouter();
         this.bindEvents();
+        this.startApplication();
     },
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
+
+    registerRouter: function() {
+        this.productRoute = crossroads.addRoute("product/{id}",this.goToProduct);// The function that you would like to call when somebody hits a url like yoursite.com/product/123
+        this.allProduct = crossroads.addRoute("product", this.allProducts);
+        this.home = crossroads.addRoute("home", this.showHome);
+    },
+    goToProduct: function(id){
+        var template = $('#template1').html(),
+            compiled = Handlebars.compile(template),
+            html = compiled({'id': id});
+
+        $('#placeHere').html(html);
+    },
+    parseHash:function(newHash, oldHash){
+        crossroads.parse(newHash);
+    },
+
+    startApplication: function(){
+        crossroads.routed.add(console.log, console); //log all routes
+         //setup hasher
+
+        hasher.initialized.add(this.parseHash); //parse initial hash
+        hasher.changed.add(this.parseHash); //parse hash changes
+        hasher.init(); //start listening for history change
+         
+        //update URL fragment generating new history record
+        //hasher.setHash('product/3');
+    },
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
@@ -45,6 +75,22 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+    allProducts: function() {
+        $.getJSON( "product.json", function( data ) {
+            var template = $('#products').html(),
+                compiled = Handlebars.compile(template),
+                html = compiled(data);
+            $('#placeHere').html(html);
+        
+         });
+    },
+    showHome: function() {
+        var template = $('#home').html(),
+            compiled = Handlebars.compile(template),
+            html = compiled();
+
+        $('#placeHere').html(html);
     }
 };
 
