@@ -31,7 +31,11 @@ define(['jquery', 'finch', 'hasher'], function($, finch, hasher) {
     			home.start();
     		})
 	    },
+	    home: function(bindings){
+	    	console.log("home")
+	    },
 	    registerRoute: function(){
+	    	finch.route('/', this.home);
 	    	finch.route('/home', this.showHome);
 	    	finch.route('[/home]/ul', this.showLi);
 
